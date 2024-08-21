@@ -1,0 +1,33 @@
+version: "3.1"
+
+services:
+
+  db:
+    restart: always
+    image: postgres
+    container_name: finance-postgres
+    environment:
+      - POSTGRES_USER=quera
+      - POSTGRES_PASSWORD=quera
+      - POSTGRES_DB=finance
+      - POSTGRES_PORT=5432
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  pgadmin:
+      image: dpage/pgadmin4
+      container_name: finance-pgadmin
+      depends_on:
+        - db
+      ports:
+        - "5051:80"
+      environment:
+        PGADMIN_DEFAULT_EMAIL: mahdikhazayi75@gmail.com
+        PGADMIN_DEFAULT_PASSWORD: bazaarpay
+      restart: always
+
+
+volumes:
+  postgres_data:
