@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delete {{ wallet.name }}
+{% endblock %}
+
+
+{% block content %}
+    <h1>{{ wallet.name }}</h1>
+
+    <p> The delete operation was successful! </p>
+    <p>Back to <a href="{% url 'finance:wallet:list-wallets' %}">wallets</a></p>
+
+{% endblock %}                  

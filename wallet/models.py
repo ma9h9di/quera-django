@@ -44,6 +44,7 @@ class Wallet(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)
     country = models.CharField(max_length=2, choices=Country.choices())
+    name = models.CharField(max_length=50, null=False, blank=False)
 
 
 class Transaction(models.Model):

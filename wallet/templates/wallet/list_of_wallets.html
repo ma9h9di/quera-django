@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+  My Finance Application - List of all wallets
+{% endblock %}
+
+
+{% block content %}
+  <h1>Wallets</h1>
+  
+  <ul>
+    {% for x in my_wallets %}
+      <li><a href="{% url 'finance:wallet:get-wallet' x.id%}">{{ x.name }} {{ x.balance }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ wallet.name }}
+{% endblock %}
+
+
+{% block content %}
+    <h1>{{ wallet.name }}</h1>
+
+    <p>Balance: {{ wallet.balance }}</p>
+    <p>Country: {{ wallet.country }}</p>
+    <p>Created at: {{ wallet.created_at }}</p>
+
+    <p><a href="{% url 'finance:wallet:delete-wallet' wallet.id%}">delete</a></p>
+    <p>Back to <a href="{% url 'finance:wallet:list-wallets' %}">wallets</a></p>
+
+{% endblock %}                  
