@@ -1,18 +1,45 @@
 {% extends "base.html" %}
 
+{% block header_title %}
+    {{ object.name }}
+{% endblock %}
+
 {% block title %}
-    {{ wallet.name }}
+    {{ object.name }}
 {% endblock %}
 
 
 {% block content %}
-    <h1>{{ wallet.name }}</h1>
 
-    <p>Balance: {{ wallet.balance }}</p>
-    <p>Country: {{ wallet.country }}</p>
-    <p>Created at: {{ wallet.created_at }}</p>
+    <table>
+        <tbody>
+        <tr>
+            <th>Balance</th>
+            <td>{{ object.balance }}</td>
+        </tr>
+        <tr>
+            <th>Country</th>
+            <td>{{ object.country }}</td>
+        </tr>
+        <tr>
+            <th>Created at</th>
+            <td>{{ object.created_at|date }}</td>
+        </tr>
+        </tbody>
+    </table>
 
-    <p><a href="{% url 'finance:wallet:delete-wallet' wallet.id%}">delete</a></p>
-    <p>Back to <a href="{% url 'finance:wallet:list-wallets' %}">wallets</a></p>
+    <div class="actions">
+        <!-- Delete button using <button> tag inside a form -->
+        <form action="{% url 'finance:wallet:update-wallet' object.id %}" method="get">
+            {% csrf_token %}
+            <button type="submit" class="button">Update</button>
+        </form>
+        <form action="{% url 'finance:wallet:delete-wallet' object.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="button delete">Delete</button>
+        </form>
 
-{% endblock %}                  
+        <!-- Link styled as a button for navigation -->
+        <p>Back to <a href="{% url 'finance:wallet:list-wallets' %}" class="button">Wallets</a></p>
+    </div>
+{% endblock %}

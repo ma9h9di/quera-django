@@ -46,6 +46,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'wallet.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'finance.urls'
@@ -126,3 +127,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = 'finance:wallet:list-wallets'
+LOGOUT_REDIRECT_URL = 'finance:user:login'
+LOGIN_URL = 'finance:user:login'

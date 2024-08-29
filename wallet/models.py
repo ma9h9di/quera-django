@@ -49,11 +49,11 @@ class Wallet(models.Model):
 
 class Transaction(models.Model):
     from_wallet = models.ForeignKey(
-        Wallet, on_delete=models.PROTECT, null=False,
+        Wallet, on_delete=models.PROTECT, null=True,
         related_name='wallet_outcome'
     )
     to_wallet = models.ForeignKey(
-        Wallet, on_delete=models.PROTECT, null=False,
+        Wallet, on_delete=models.PROTECT, null=True,
         related_name='wallet_income'
     )
     amount = models.PositiveIntegerField(default=0, null=False)

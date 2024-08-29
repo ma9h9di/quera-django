@@ -1,16 +1,27 @@
 {% extends "base.html" %}
 
+{% block header_title %}
+    My Finance Application - List of all wallets
+{% endblock %}
+
 {% block title %}
-  My Finance Application - List of all wallets
+    My Finance Application - List of all wallets
 {% endblock %}
 
 
 {% block content %}
-  <h1>Wallets</h1>
-  
-  <ul>
-    {% for x in my_wallets %}
-      <li><a href="{% url 'finance:wallet:get-wallet' x.id%}">{{ x.name }} {{ x.balance }}</a></li>
-    {% endfor %}
-  </ul>
+        <!-- Delete button using <button> tag inside a form -->
+        <form action="{% url 'finance:wallet:create-wallet' %}" method="get">
+            {% csrf_token %}
+            <button type="submit" class="button ">Add New Wallet</button>
+        </form>
+    <ul>
+        {% for x in object_list %}
+            <li><a href="{% url 'finance:wallet:get-wallet' x.id %}">{{ x.name }}: {{ x.balance }}</a></li>
+        {% endfor %}
+    </ul>
+            <form action="{% url 'finance:user:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="button delete">LogOut</button>
+        </form>
 {% endblock %}

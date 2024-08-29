@@ -21,3 +21,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('finance/', include(('wallet.urls', 'finance'), namespace='finance')),
 ]
+handler400 = 'wallet.views.error_handler.custom_bad_request'
