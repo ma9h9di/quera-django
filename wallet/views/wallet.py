@@ -7,13 +7,35 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.views.generic import TemplateView
 
 from wallet.forms.wallet import WalletCreateForm, WalletUpdateForm
 from wallet.models import Wallet
 
 
+# from django.conf import settings
+#
+# from finance import settings
+#
+# settings.WALLET_PREFIX_NAME
+
+
+class CreateWalletView(TemplateView):
+    template_name = 'wallet/wallet_form.html'
+
+    def get_context_data(self, **kwargs):
+        return {'form': WalletCreateForm(), 'action': 'Create'}
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        form = WalletCreateForm(request.POST, user=request.user)
+        if form.is_valid():
+            form.save(commit=True)
+
+            return redirect('finance:wallet:list-wallets')  # Redirect to a list or detail view
+        return render(request, 'wallet/wallet_form.html', {'form': form, 'action': 'Create'})
+
+
 @csrf_exempt
-@require_POST
 def create(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = WalletCreateForm(request.POST, user=request.user)
@@ -69,6 +91,9 @@ def update(request: HttpRequest, pk: int) -> HttpResponse:
     return render(request, 'wallet/wallet_form.html', {'form': form, 'action': 'Update'})
 
 
+@require_POST
+@login_required
+@csrf_exempt
 def delete(request: HttpRequest, pk: int) -> HttpResponse:
     worker_wallet = Wallet.objects.get(pk=pk)
     context = {
@@ -89,6 +114,9 @@ def delete(request: HttpRequest, pk: int) -> HttpResponse:
 class WalletGenericListView(LoginRequiredMixin, generic.ListView):
     model = Wallet
     template_name = 'wallet/list_of_wallets.html'
+
+    def get_queryset(self):
+        return Wallet.objects.filter(user_id=self.request.user.pk)
 
 
 class WalletGenericDetailView(LoginRequiredMixin, generic.DetailView):

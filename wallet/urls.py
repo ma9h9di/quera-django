@@ -1,12 +1,13 @@
 from django.contrib.auth import views as auth_views
 from django.urls import include
 from django.urls import path
+from django.views.generic import TemplateView
 
 from wallet.views import user as user_views
 from wallet.views import wallet as wallet_views
 from wallet.views.transaction import IncreaseBalanceView, DecreaseBalanceView, TransferAmountView, TransactionView
 from wallet.views.wallet import WalletGenericListView, WalletGenericDetailView, WalletGenericDeleteView, \
-    WalletGenericCreateView, WalletGenericUpdateView
+    WalletGenericCreateView, WalletGenericUpdateView, CreateWalletView
 
 user_urlpatterns = [
     path('signup/', user_views.signup_view, name='signup'),
@@ -28,10 +29,18 @@ wallet_generic_urlpatterns = [
             ]
         ),
     ),
-
 ]
+
 wallet_urlpatterns = [
-    path("create/", wallet_views.create, name='create-wallet'),
+    path(
+        "test/",
+        TemplateView.as_view(
+            template_name='test.html',
+            extra_context={'names': [{}, {'name': 'Mahdi'}]}
+        ),
+        name='create-wallet'
+    ),
+    path("create/", CreateWalletView.as_view(), name='create-wallet'),
     path("list/", wallet_views.list_of_wallets, name='list-wallets'),
     path(
         "<int:pk>/",
@@ -44,7 +53,6 @@ wallet_urlpatterns = [
         ),
     ),
     path('generic/', include((wallet_generic_urlpatterns, 'generic'), namespace='generic')),
-
 ]
 
 transaction_urlpatterns = [

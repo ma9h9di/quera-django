@@ -1,23 +1,23 @@
 # Create your models here.
-from enum import StrEnum
+from enum import Enum
 
 from django.contrib.auth.models import User
 from django.db import models
 
 
-class Country(StrEnum):
+class Country(Enum):
     IRAN = 'ir'
     Canada = 'ca'
 
     @classmethod
     def choices(cls):
         return [
-            (cls.IRAN, 'Iran'),
-            (cls.Canada, 'Canada'),
+            (cls.IRAN.value, 'Iran'),
+            (cls.Canada.value, 'Canada'),
         ]
 
 
-class TransactionStatus(StrEnum):
+class TransactionStatus(Enum):
     STARTED = 'S'
     COMMITTED = 'D'
     FAILED = 'F'
@@ -26,10 +26,10 @@ class TransactionStatus(StrEnum):
     @classmethod
     def choices(cls):
         return [
-            (cls.STARTED, 'Started'),
-            (cls.COMMITTED, 'Committed'),
-            (cls.FAILED, 'Failed'),
-            (cls.PENDING, 'Pending'),
+            (cls.STARTED.value, 'Started'),
+            (cls.COMMITTED.value, 'Committed'),
+            (cls.FAILED.value, 'Failed'),
+            (cls.PENDING.value, 'Pending'),
         ]
 
 
@@ -59,7 +59,7 @@ class Transaction(models.Model):
     amount = models.PositiveIntegerField(default=0, null=False)
     status = models.CharField(
         max_length=1, choices=TransactionStatus.choices(),
-        default=TransactionStatus.STARTED
+        default=TransactionStatus.STARTED.value
     )
     updated_at = models.DateTimeField(auto_now=True, null=False)
     created_at = models.DateTimeField(auto_now_add=True, null=False)

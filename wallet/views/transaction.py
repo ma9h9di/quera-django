@@ -16,7 +16,7 @@ class IncreaseBalanceMixin:
             Transaction.objects.create(
                 to_wallet=wallet,
                 amount=amount,
-                status=TransactionStatus.COMMITTED,
+                status=TransactionStatus.COMMITTED.value,
                 committed_at=now()
             )
             wallet.balance += amount
@@ -32,7 +32,7 @@ class DecreaseBalanceMixin:
             Transaction.objects.create(
                 from_wallet=wallet,
                 amount=amount,
-                status=TransactionStatus.COMMITTED,
+                status=TransactionStatus.COMMITTED.value,
                 committed_at=now()
             )
             wallet.balance -= amount
@@ -50,7 +50,7 @@ class TransferAmountMixin:
                 from_wallet=from_wallet,
                 to_wallet=to_wallet,
                 amount=amount,
-                status=TransactionStatus.COMMITTED,
+                status=TransactionStatus.COMMITTED.value,
                 committed_at=now()
             )
             from_wallet.balance -= amount
